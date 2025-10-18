@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Día de Muertos - Familia González</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cinzel', serif;
+    }
+
+    body {
+      background-color: #0f0f0f;
+      color: #f0f0f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo con pétalos animados */
+    .petals-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ff9800, #ff5722);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 0;
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                  url('https://images.unsplash.com/photo-1604348892612-0c3b8d93c1f7?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center;
+      border-bottom: 3px solid #ff5722;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 30px rgba(255, 87, 34, 0.3);
+    }
+
+    h1 {
+      font-size: 4rem;
+      color: #ff5722;
+      text-shadow: 3px 3px 5px #000;
+      margin-bottom: 20px;
+      animation: flicker 3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 4px #ff5722, 0 0 11px #ff5722, 0 0 19px #ff5722;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    .subtitle {
+      font-size: 2.2rem;
+      color: #ff9800;
+      text-shadow: 2px 2px 4px #000;
+      margin-bottom: 20px;
+    }
+
+    .event-info {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+
+    .family-quote {
+      font-size: 1.3rem;
+      color: #ffcc80;
+      font-style: italic;
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: center;
+      padding: 20px;
+      border-left: 3px solid #ff5722;
+      border-right: 3px solid #ff5722;
+      background: rgba(255, 87, 34, 0.1);
+      border-radius: 10px;
+    }
+
+    .date-badge {
+      display: inline-block;
+      background-color: #ff5722;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 30px;
+      margin-top: 20px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      font-size: 1.3rem;
+    }
+
+    /* SECCIONES DE INFORMACIÓN */
+    .info-section {
+      background-color: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+      margin: 40px 0;
+      border: 1px solid #ff5722;
+      box-shadow: 0 0 20px rgba(255, 87, 34, 0.2);
+      position: relative;
+    }
+
+    .info-section::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 10px;
+      background-color: #ff5722;
+      border-radius: 5px;
+    }
+
+    h2 {
+      color: #ff9800;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ff5722;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      color: #ff9800;
+      font-size: 1.8rem;
+      margin: 20px 0 15px;
+      text-align: center;
+    }
+
+    /* TABLA */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+
+    th {
+      background-color: #ff5722;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #2a2a2a;
+    }
+
+    tr:hover {
+      background-color: #333;
+    }
+
+    .total-row {
+      background-color: #1a1a1a !important;
+      font-weight: bold;
+      color: #ff9800;
+    }
+
+    .highlight-row {
+      background-color: #2d1a0f !important;
+      font-weight: bold;
+    }
+
+    /* LISTA DE FAMILIAS */
+    .family-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .family-item {
+      background-color: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border-left: 4px solid #ff5722;
+    }
+
+    /* OPCIONES */
+    .options-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .option {
+      flex: 1;
+      min-width: 300px;
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+
+    .option h4 {
+      color: #ff9800;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 40px;
+      border-top: 2px solid #ff5722;
+      background-color: #111;
+      position: relative;
+    }
+
+    .footer-text {
+      color: #ff9800;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.8rem; }
+      .subtitle { font-size: 1.6rem; }
+      .event-info { font-size: 1.2rem; }
+      .family-quote { font-size: 1.1rem; padding: 15px; }
+      table {
+        font-size: 0.9rem;
+      }
+      th, td {
+        padding: 10px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Pétalos animados en el fondo -->
+  <div class="petals-container" id="petals"></div>
+
+  <header>
+    <div class="container">
+      <h1>DÍA DE MUERTOS</h1>
+      <p class="subtitle">REUNIÓN FAMILIAR</p>
+      <p class="event-info">FAMILIA GONZÁLEZ</p>
+      <div class="family-quote">
+        "En esta unión familiar, honramos a quienes se fueron, para que su memoria viva eternamente en nuestros corazones y en nuestras tradiciones."
+      </div>
+      <div class="date-badge">Sábado 1 de Noviembre - 6:30 PM</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- INFORMACIÓN -->
+    <section class="info-section">
+      <h2>INFORMACIÓN DE LA REUNIÓN</h2>
+      <p>¡Únete a nuestra celebración del Día de Muertos! Una noche llena de tradición, diversión y unión familiar. Ven disfrazado con tu mejor atuendo terrorífico y prepárate para una velada inolvidable.</p>
+      <p><strong>Fecha:</strong> Sábado 1 de Noviembre</p>
+      <p><strong>Lugar:</strong> Casa de la Abuela</p>
+      <p><strong>Hora:</strong> 6:30 PM</p>
+      <p><strong>Temática:</strong> Disfraces terroríficos del Día de Muertos</p>
+    </section>
+
+    <!-- TABLA DE GASTOS -->
+    <section class="info-section">
+      <h2>PRESUPUESTO DE LA FIESTA</h2>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Cantidad</th>
+            <th>Producto</th>
+            <th>Descripción</th>
+            <th>Precio unitario</th>
+            <th>Total por cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td>
+            <td>Cerveza</td>
+            <td>6 pack, 355 ml c/u</td>
+            <td>$124</td>
+            <td>$248</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Tequila</td>
+            <td>1 Lt</td>
+            <td>$400</td>
+            <td>$800</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Refresco varios</td>
+            <td>3 L c/u</td>
+            <td>$41</td>
+            <td>$205</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Botana</td>
+            <td>Paquete grande c/u</td>
+            <td>$85</td>
+            <td>$255</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Pizzas</td>
+            <td>c/u</td>
+            <td>$100</td>
+            <td>$1100</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Desechable</td>
+            <td>Apoyo limpieza. Incluye todo el paquete (vasos, cucharas y platos)</td>
+            <td>$100</td>
+            <td>$100</td>
+          </tr>
+          <tr class="highlight-row">
+            <td colspan="4">Total general:</td>
+            <td>$2,708</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="4">Monto por familia:</td>
+            <td>$677</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Dato a votación para la limpieza</h3>
+      <p><em>(Esto es independientemente a lo que se aportará en el monto por familia)</em></p>
+      
+      <div class="family-list">
+        <div class="family-item">Familia: Abuelito Roberto</div>
+        <div class="family-item">Familia: Tío Miguel</div>
+        <div class="family-item">Familia: Tia Elsa</div>
+        <div class="family-item">Familia: Tia Verónica</div>
+      </div>
+
+      <div class="options-container">
+        <div class="option">
+          <h4>Opción 1</h4>
+          <p>Realizar una cooperación entre todas las familias para cubrir el gasto total de $300 pesos para la limpieza, lo que correspondería a una aportación simbólica de $75 pesos por familia para solventar algo de lo que se genera antes y después del evento ya sea (tiempo, mano de obra, productos de limpieza etc.)</p>
+          <p><strong>En dado caso de escoger la opción número 1 se le sumará el costo al monto familiar.</strong></p>
+        </div>
+        <div class="option">
+          <h4>Opción 2</h4>
+          <p>Que en los próximos eventos, se llevarán a cabo de manera equitativa hasta dar vuelta en todos los domicilios de cada uno de ellos y así se asuma la limpieza que el evento general (generalmente antes y después del evento aunque apoyemos al momento para recoger aún así se genera algunos gastos) de esta manera, puede mantenerse un equilibrio entre todos.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p class="footer-text">¡Que viva la familia González! ¡Que viva el Día de Muertos! 💀🌼</p>
+    </div>
+  </footer>
+
+  <script>
+    // Crear pétalos animados
+    function createPetals() {
+      const container = document.getElementById('petals');
+      const petalCount = 30;
+      
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        
+        // Posición aleatoria
+        const left = Math.random() * 100;
+        petal.style.left = `${left}vw`;
+        
+        // Tamaño aleatorio
+        const size = 10 + Math.random() * 20;
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size}px`;
+        
+        // Duración y retardo de animación aleatorios
+        const duration = 5 + Math.random() * 10;
+        const delay = Math.random() * 5;
+        petal.style.animationDuration = `${duration}s`;
+        petal.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(petal);
+      }
+    }
+    
+    // Inicializar efectos cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+      createPetals();
+    });
+  </script>
+</body>
+</html>
